@@ -16,30 +16,33 @@ const transactions = [
 ];
 
 export function getDailyPortfolioValues() {
-    const startOfReport = new Date(2021, 8, 1);
-    const endOfReport = new Date(2021, 8, 7);
+    const startOfReport = new Date("2021-09-01");
+    const endOfReport = new Date("2021-09-07");
     let currentPrice = 0;
     let currentValue = 0;
     let portfolioValues = [];
 
     for (let date = startOfReport; date <= endOfReport; date.setDate(date.getDate() + 1)) {
 
-        for (let index = 0, index < transactions.length; index += 1) {
+        for (let index = 0; index < transactions.length; index += 1) {
             if (transactions [index].effectiveDate.getDate() === date.getDate()) {
                 currentValue += transactions[index].value
                     continue;
             } 
-        }
-    }
-
-    for (let index = 0, index < prices.length; index += 1) {
-        if (prices [index].effectiveDate.getDate() === date.getDate()) {
-            currentPrice = prices[index].price
-                continue;
         } 
+        
+        for (let index = 0; index < prices.length; index += 1) {
+            if (prices [index].effectiveDate.getDate() === date.getDate()) {
+                currentPrice = prices[index].price
+                    continue;
+            } 
+        }
+    const correctDate = startOfReport.toISOString().slice(0,10)
+    
+        portfolioValues.push({
+            effectiveDate: correctDate, value: + (currentValue * currentPrice).toFixed(5)
+        });
     }
-
-    portfolioValues.push(effectiveDate: new Date(date));
 
     return portfolioValues;
 }
